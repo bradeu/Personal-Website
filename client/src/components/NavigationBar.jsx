@@ -1,25 +1,39 @@
-import Items from "./Items"
-import Toggle from "./Toggle"
-import { motion } from "framer-motion"
-import { useState } from 'react'
+import React from "react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
 
-const variants = {
-    open: { opacity: 1, x: 0 },
-    closed: { opacity: 0, x: "100%" },
-  }
-
-function NavigationBar() {
-    const [isOpen, setIsOpen] = useState(false)
-
-    return (
-      <motion.nav
-        animate={isOpen ? "open" : "closed"}
-        variants={variants}
-      >
-        <Toggle onClick={() => setIsOpen(isOpen => !isOpen)} />
-        <Items />
-      </motion.nav>
-    )
+export default function NavigationBar() {
+  return (
+    <Navbar shouldHideOnScroll>
+      <NavbarBrand>
+        <p className="font-bold text-inherit">Bradley Eugene Sakran</p>
+      </NavbarBrand>
+      <NavbarContent className="sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            About
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive>
+          <Link href="#" aria-current="page">
+            Resume
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#">
+            Contact
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Link href="#">About</Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Button as={Link} color="primary" href="#" variant="flat">
+            GitHub
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
+  );
 }
-
-export default NavigationBar
