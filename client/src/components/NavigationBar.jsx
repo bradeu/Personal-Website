@@ -8,13 +8,13 @@ export default function NavigationBar() {
         <p className="font-bold text-inherit">Bradley Eugene Sakran</p>
       </NavbarBrand>
       <NavbarContent className="sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
+        <NavbarItem isActive>
+          <Link href="#" aria-current="page">
             About
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+        <NavbarItem >
+          <Link color="foreground" href="#">
             Resume
           </Link>
         </NavbarItem>
@@ -26,21 +26,11 @@ export default function NavigationBar() {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">About</Link>
+          <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary" href="#" variant="flat">
-            GitHub
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            GitHub
-          </Button>
-        </NavbarItem>
-        <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            GitHub
+            Login
           </Button>
         </NavbarItem>
       </NavbarContent>
