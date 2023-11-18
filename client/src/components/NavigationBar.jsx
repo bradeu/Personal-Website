@@ -1,9 +1,11 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Avatar} from "@nextui-org/react";
+import profileImage from '../public/profile.jpg'
 
 export default function NavigationBar() {
   return (
     <Navbar shouldHideOnScroll color="primary">
+      <Avatar showFallback isBordered color="primary" src={profileImage} size="md" />
       <NavbarBrand>
         <p className="font-bold text-inherit">Bradley Eugene Sakran</p>
       </NavbarBrand>
