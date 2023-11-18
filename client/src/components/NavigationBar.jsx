@@ -1,5 +1,16 @@
 import React from "react";
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Avatar} from "@nextui-org/react";
+import {
+  Navbar, 
+  NavbarBrand, 
+  NavbarContent, 
+  NavbarItem, 
+  Link, 
+  Button, 
+  Avatar,
+  Dropdown, 
+  DropdownTrigger, 
+  DropdownMenu, 
+  DropdownItem} from "@nextui-org/react";
 import profileImage from '../public/profile.jpg'
 
 export default function NavigationBar() {
@@ -31,9 +42,18 @@ export default function NavigationBar() {
           <Link href="#">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Login
+        <Dropdown backdrop="blur">
+      <DropdownTrigger>
+      <Button as={Link} color="primary" href="#" variant="flat">
+            Connect
           </Button>
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Static Actions">
+        <DropdownItem key="github" href="https://github.com/bradeu">GitHub</DropdownItem>
+        <DropdownItem key="linkedin" href="https://linkedin.com/in/besakran">linkedIn</DropdownItem>
+        <DropdownItem key="instagram" href="https://www.instagram.com/bradley.eugene/">Instagram</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
         </NavbarItem>
       </NavbarContent>
     </Navbar>
