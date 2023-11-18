@@ -10,7 +10,8 @@ import {
   Dropdown, 
   DropdownTrigger, 
   DropdownMenu, 
-  DropdownItem} from "@nextui-org/react";
+  DropdownItem,
+  Divider} from "@nextui-org/react";
 import profileImage from '../public/profile.jpg'
 
 export default function NavigationBar() {
