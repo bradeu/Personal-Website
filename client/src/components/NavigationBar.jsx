@@ -33,6 +33,16 @@ export default function NavigationBar() {
             GitHub
           </Button>
         </NavbarItem>
+        <NavbarItem>
+          <Button as={Link} color="primary" href="#" variant="flat">
+            GitHub
+          </Button>
+        </NavbarItem>
+        <NavbarItem>
+          <Button as={Link} color="primary" href="#" variant="flat">
+            GitHub
+          </Button>
+        </NavbarItem>
       </NavbarContent>
     </Navbar>
   );
