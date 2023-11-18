@@ -3,7 +3,7 @@ import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button} from "@nex
 
 export default function NavigationBar() {
   return (
-    <Navbar shouldHideOnScroll>
+    <Navbar shouldHideOnScroll color="primary">
       <NavbarBrand>
         <p className="font-bold text-inherit">Bradley Eugene Sakran</p>
       </NavbarBrand>
