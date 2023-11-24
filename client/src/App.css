@@ -55,6 +55,9 @@
 
 .content-container h2{
   padding: 5rem;
+  font-size: 1.25rem;
+  line-height: 2.5rem;
+  letter-spacing: 0.05rem;
 }
 
 
@@ -96,4 +99,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.contact * {
+  text-align: center;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
 }
