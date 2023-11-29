@@ -4,14 +4,13 @@ import {
   NavbarBrand, 
   NavbarContent, 
   NavbarItem, 
-  Link, 
   Button, 
   Avatar,
   Dropdown, 
   DropdownTrigger, 
   DropdownMenu, 
   DropdownItem,
-  Divider} from "@nextui-org/react";
+  Link} from "@nextui-org/react";
 import profileImage from '../public/profile.jpg'
 
 export default function NavigationBar() {
@@ -23,17 +22,17 @@ export default function NavigationBar() {
       </NavbarBrand>
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+          <Link href="/">
             About
           </Link>
         </NavbarItem>
         <NavbarItem >
-          <Link color="foreground" href="#">
+          <Link href="/resume">
             Resume
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link href="/contact">
             Contact
           </Link>
         </NavbarItem>
