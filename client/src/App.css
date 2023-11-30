@@ -101,6 +101,12 @@
   align-items: center;
 }
 
+.image-container>img {
+  height: 30rem;
+  width: 40rem;
+  object-fit: cover;
+}
+
 .contact {
   display: flex;
   justify-content: center;
@@ -146,11 +152,10 @@ body {
 
 .contact-container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
-  background-image: linear-gradient(to left, #3b096c, #3f0a70, #430c74, #480d79, #4c0e7d, #510f82, #551086, #5a118b, #601391, #661596, #6d169c, #7318a2);
-  margin: 2rem;
-  border-radius: 2.5rem 2.5rem;
+  background-image: linear-gradient(to right, #520f83, #581189, #5e138e, #651494, #6b169a, #6b169a, #6b169a, #6b169a, #651494, #5e138e, #581189, #520f83);
+  margin: 4rem;
   height: 35rem;
 }
 
@@ -160,11 +165,36 @@ body {
   align-items: center;
 }
 
-.reach-out-container {
-  flex-direction: column;
+.reach-out-container>h1 {
+  font-weight: bolder;
+  font-size: 2.5rem;
 }
 
-.button-container {
+.reach-out-container>h2 {
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.reach-out-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+}
+
+.information-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  background-color: #3b096c;
+  border-radius: 2.5rem 2.5rem;
+  margin-right: 3rem;
+  margin-left: 3rem;
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+}
+
+.information-container h2{
+  font-weight: bold;
+  font-size: 2rem;
 }

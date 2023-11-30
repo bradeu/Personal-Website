@@ -1,7 +1,6 @@
 import React from "react";
-import techPic from "../public/tech-pic.jpg"
+import bradleyPic from "../public/bradley-picture.png"
 
-const extrapicture = "https://nextui-docs-v2.vercel.app/images/hero-card-complete.jpeg"
 
 export default function AboutBody() {
     return (
@@ -9,7 +8,7 @@ export default function AboutBody() {
             <h1 className="flex items-center justify-center font-extrabold p-4">Hello, I'm Bradley</h1>
             <div className="content-container grid grid-cols-2 gap-4">
                 <div className="image-container">
-                <img className="flex justify-center items-center p-4 rounded-full" src={techPic}/>
+                <img className="flex justify-center items-center p-4 rounded-full" src={bradleyPic}/>
                 </div>
                 <h2 className="flex justify-center items-center p-4 border-left-purple">I’m a student enrolled in the Faculty of Science at University of British Columbia, aiming to pursue a major in computer science. Beyond my studies, I've independently delved into web development, becoming proficient as a full-stack developer. I've honed my skills during my free time, now adept at crafting web applications with an Express back end and React front end.</h2>
             </div>
