@@ -3,9 +3,11 @@ import {Button} from "@nextui-org/react";
 
 export default function ContactBody() {
     return <div className="contact">
-        <div>
-            <h1>Get in touch</h1>
-            <h2>Want to get in touch? I'd love to connect with you. Here's how you can reach out...</h2>
+        <div className="contact-container">
+            <h1>Let's get in touch !</h1>
+            <div className="reach-out-container">
+            <h2>I'd love to connect with you. Here's how you can reach out...</h2>
+            <div className="button-container">
             <a href="https://linkedin.com/in/besakran">
                 <Button radius="full" className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg">
                 LinkedIn
@@ -21,6 +23,8 @@ export default function ContactBody() {
                 Email
                 </Button>
             </a>
+            </div>
+            </div>
         </div>
     </div>
 }
