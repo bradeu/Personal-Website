@@ -9,7 +9,7 @@ export default defineConfig({
       origin: 'http://localhost:5173',
     },
     build: {
-      outDir: '../dist',
+      outDir: '../static',
       emptyOutDir: true,
       manifest: true,
       rollupOptions: {
