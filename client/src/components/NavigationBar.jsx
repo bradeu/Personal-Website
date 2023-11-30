@@ -22,17 +22,17 @@ export default function NavigationBar() {
       </NavbarBrand>
       <NavbarContent className="sm:flex gap-4" justify="center">
         <NavbarItem isActive>
-          <Link href="/">
+          <Link aria-current="page" href="/">
             About
           </Link>
         </NavbarItem>
         <NavbarItem >
-          <Link href="/resume">
+          <Link color="foreground" href="/resume">
             Resume
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="/contact">
+          <Link color="foreground" href="/contact">
             Contact
           </Link>
         </NavbarItem>
