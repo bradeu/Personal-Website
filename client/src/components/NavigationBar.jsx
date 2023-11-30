@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom"
+import { usePageContext } from "../PageContext";
 import {
   Navbar, 
   NavbarBrand, 
@@ -10,11 +12,14 @@ import {
   DropdownTrigger, 
   DropdownMenu, 
   DropdownItem,
-  Link} from "@nextui-org/react";
+  Link as NextUILink
+} from "@nextui-org/react";
 import profileImage from '../public/profile.jpg'
 
 
-export default React.memo(function NavigationBar({page, handleSetActivePage}) {
+export default React.memo(function NavigationBar() {
+
+    const { page, handleSetActivePage } = usePageContext();
 
   return (
     <Navbar shouldHideOnScroll color="primary">
@@ -28,13 +33,13 @@ export default React.memo(function NavigationBar({page, handleSetActivePage}) {
         isActive={page === "about"}
         
         >
-          <Link 
-          onClick={() => handleSetActivePage("about")}
-          color={page !== "about" ? "foreground" : ""} 
-          aria-current={page === "about" ? "page" : ""}
-          href="/">
+          <Link to="/" onClick={() => handleSetActivePage("about")} preventScrollReset={false}>
+          <span
+          className={page === "about" ? "link" : ""} 
+          aria-current={page === "about" ? "page" : ""}>
 
             About
+          </span>
           </Link>
         </NavbarItem>
         <NavbarItem 
@@ -42,27 +47,27 @@ export default React.memo(function NavigationBar({page, handleSetActivePage}) {
         isActive={page === "resume"}
         
         >
-          <Link 
-          onClick={() => handleSetActivePage("resume")}
-          color={page !== "resume" ? "foreground" : ""} 
-          aria-current={page === "resume" ? "page" : ""}
-          href="/resume">
+          <Link to="/resume" onClick={() => handleSetActivePage("resume")} preventScrollReset={false} >
+          <span
+          className={page === "resume" ? "link" : ""} 
+          aria-current={page === "resume" ? "page" : ""}>
 
             Resume
+          </span>
           </Link>
         </NavbarItem>
         <NavbarItem
-        
+
         isActive={page === "contact"}
         
         >
-          <Link 
-          onClick={() => handleSetActivePage("contact")}
-          color={page !== "contact" ? "foreground" : ""} 
-          aria-current={page === "contact" ? "page" : ""}
-          href="/contact">
+          <Link to="/contact" onClick={() => handleSetActivePage("contact")} preventScrollReset={false}>
+          <span
+          className={page === "contact" ? "link" : ""} 
+          aria-current={page === "contact" ? "page" : ""}>
 
             Contact
+          </span>
           </Link>
         </NavbarItem>
       </NavbarContent>

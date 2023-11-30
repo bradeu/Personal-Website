@@ -1,8 +1,4 @@
 import React from "react";
-import {Card, CardFooter, Image, Button, link} from "@nextui-org/react";
-import githubLogo from "../public/github-logo.png"
-import linkedinLogo from "../public/linkedin-logo.png"
-import instagramLogo from "../public/instagram-logo.png"
 
 export default function ContactBody() {
     return <div className="contact">
@@ -19,7 +15,7 @@ export default function ContactBody() {
                 </div>
                 <div>
                     <h2>Based in</h2>
-                    <p>Vancouver, <br/>British Columbia</p>
+                    <p>Vancouver, <br/>British Columbia, Canada</p>
                 </div>
             </div>
         </div>

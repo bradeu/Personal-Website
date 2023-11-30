@@ -10,6 +10,14 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/templates/index.dev.html")
 });
 
+app.get("/resume", (req, res) => {
+    res.sendFile(__dirname + "/templates/index.dev.html")
+});
+
+app.get("/contact", (req, res) => {
+    res.sendFile(__dirname + "/templates/index.dev.html")
+});
+
 app.listen(port, () => {
     console.log(`server running on port: ${port}`)
 });

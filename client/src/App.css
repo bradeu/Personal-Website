@@ -121,7 +121,7 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .card-container {
@@ -199,4 +199,8 @@ body {
 .information-container h2{
   font-weight: bold;
   font-size: 2rem;
+}
+
+.link {
+  color: #DD62ED;
 }
