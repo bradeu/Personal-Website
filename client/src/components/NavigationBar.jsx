@@ -13,7 +13,9 @@ import {
   Link} from "@nextui-org/react";
 import profileImage from '../public/profile.jpg'
 
-export default function NavigationBar() {
+
+export default React.memo(function NavigationBar({page, handleSetActivePage}) {
+
   return (
     <Navbar shouldHideOnScroll color="primary">
       <Avatar showFallback isBordered color="primary" src={profileImage} size="md" />
@@ -21,26 +23,50 @@ export default function NavigationBar() {
         <p className="font-bold text-inherit">Bradley Eugene Sakran</p>
       </NavbarBrand>
       <NavbarContent className="sm:flex gap-4" justify="center">
-        <NavbarItem isActive>
-          <Link aria-current="page" href="/">
+        <NavbarItem 
+
+        isActive={page === "about"}
+        
+        >
+          <Link 
+          onClick={() => handleSetActivePage("about")}
+          color={page !== "about" ? "foreground" : ""} 
+          aria-current={page === "about" ? "page" : ""}
+          href="/">
+
             About
           </Link>
         </NavbarItem>
-        <NavbarItem >
-          <Link color="foreground" href="/resume">
+        <NavbarItem 
+
+        isActive={page === "resume"}
+        
+        >
+          <Link 
+          onClick={() => handleSetActivePage("resume")}
+          color={page !== "resume" ? "foreground" : ""} 
+          aria-current={page === "resume" ? "page" : ""}
+          href="/resume">
+
             Resume
           </Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="/contact">
+        <NavbarItem
+        
+        isActive={page === "contact"}
+        
+        >
+          <Link 
+          onClick={() => handleSetActivePage("contact")}
+          color={page !== "contact" ? "foreground" : ""} 
+          aria-current={page === "contact" ? "page" : ""}
+          href="/contact">
+
             Contact
           </Link>
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
         <NavbarItem>
         <Dropdown backdrop="blur">
       <DropdownTrigger>
@@ -58,4 +84,4 @@ export default function NavigationBar() {
       </NavbarContent>
     </Navbar>
   );
-}
+})
