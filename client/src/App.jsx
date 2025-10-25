@@ -1,26 +1,27 @@
 import React from "react";
-import {Routes, Route} from "react-router-dom";
-import About from "./components/About"
-import Contact from "./components/Contact"
-import Resume from "./components/Resume"
 import NavigationBar from "./components/NavigationBar";
+import HomePage from "./components/HomePage";
+import AboutSection from "./components/AboutSection";
+import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
-import { PageProvider } from './PageContext';
+import NeonBlobs from "./components/NeonBlobs";
+import RainbowGradient from "./components/RainbowGradient";
 import "./App.css"
 
 export default function App() {
-
   return (
-    <>
-    <PageProvider>
-    <NavigationBar />
-    <Routes >
-      <Route path="/" element ={<About  />} />
-      <Route path="/resume" element ={<Resume  />} />
-      <Route path="/contact" element ={<Contact  />} />
-    </Routes> 
-    <Footer />
-    </PageProvider>
-    </>
+    <div className="app-container" style={{ isolation: 'isolate', position: 'relative', background: 'transparent' }}>
+      <NeonBlobs />
+      <RainbowGradient />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <NavigationBar />
+        <main className="main-content">
+          <HomePage />
+          <AboutSection />
+          <ContactSection />
+        </main>
+        <Footer />
+      </div>
+    </div>
   )
 }
