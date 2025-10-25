@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer(){
     return (
-        <footer className="rounded-lg shadow m-4">
+        <footer>
             <div className="footer-container">
                 <p>© 2025 Bradley Eugene Sakran</p>
                 <ul className="links">
