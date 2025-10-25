@@ -48,12 +48,14 @@ export default React.memo(function NavigationBar() {
     };
 
   return (
-    <Navbar shouldHideOnScroll color="primary">
-      <Avatar showFallback isBordered color="primary" src={profileImage} size="md" />
-      <NavbarBrand>
+    <Navbar shouldHideOnScroll color="primary" className="navbar-mobile-responsive">
+      <div className="hidden sm:flex items-center gap-3">
+        <Avatar showFallback isBordered color="primary" src={profileImage} size="md" />
+      </div>
+      <NavbarBrand className="hidden sm:flex">
         <p className="font-bold text-inherit">Bradley Eugene Sakran</p>
       </NavbarBrand>
-      <NavbarContent className="sm:flex gap-4" justify="center">
+      <NavbarContent className="flex gap-4 max-sm:hidden" justify="center">
         <NavbarItem
           isActive={activeSection === "home"}
         >

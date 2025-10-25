@@ -117,6 +117,18 @@ nav .font-bold {
   color: #ffffff !important;
 }
 
+/* Mobile navbar improvements */
+@media (max-width: 640px) {
+  nav[data-slot="base"] {
+    padding: 0.5rem 1rem !important;
+  }
+
+  nav button[data-slot="trigger"] {
+    padding: 0.4rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
 /* ===== ABOUT PAGE ===== */
 .body-container {
   max-width: 1400px;
@@ -982,17 +994,32 @@ html {
 
 @media (max-width: 768px) {
   .home-section {
-    padding: 4rem 1.5rem;
+    padding: 3rem 1.5rem;
+    min-height: 90vh;
   }
 
   .home-image-wrapper {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
+  }
+
+  .home-title {
+    font-size: 2rem !important;
+  }
+
+  .home-subtitle {
+    font-size: 1rem !important;
+  }
+
+  .home-description {
+    font-size: 0.95rem !important;
+    padding: 0 0.5rem;
   }
 
   .home-actions {
     flex-direction: column;
     width: 100%;
+    gap: 0.75rem;
   }
 
   .home-btn-primary,
