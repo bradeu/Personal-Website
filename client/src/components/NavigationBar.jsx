@@ -49,6 +49,27 @@ export default React.memo(function NavigationBar() {
 
   return (
     <Navbar shouldHideOnScroll color="primary" className="navbar-mobile-responsive">
+      {/* Mobile: Avatar as dropdown button */}
+      <div className="sm:hidden">
+        <Dropdown backdrop="blur">
+          <DropdownTrigger>
+            <Avatar showFallback isBordered color="primary" src={profileImage} size="md" className="cursor-pointer" />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Navigation">
+            <DropdownItem key="home" onClick={() => scrollToSection("home")}>
+              Home
+            </DropdownItem>
+            <DropdownItem key="about" onClick={() => scrollToSection("about")}>
+              About
+            </DropdownItem>
+            <DropdownItem key="contact" onClick={() => scrollToSection("contact")}>
+              Contact
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+
+      {/* Desktop: Regular avatar and name */}
       <div className="hidden sm:flex items-center gap-3">
         <Avatar showFallback isBordered color="primary" src={profileImage} size="md" />
       </div>
