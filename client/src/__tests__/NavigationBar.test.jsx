@@ -1,9 +1,10 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { render as rtlRender, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-
-vi.mock('../public/bradley.jpg', () => ({ default: 'bradley.jpg' }));
+import { MemoryRouter } from 'react-router-dom';
 
 import NavigationBar from '../components/NavigationBar';
+
+const render = (ui) => rtlRender(<MemoryRouter>{ui}</MemoryRouter>);
 
 describe('NavigationBar', () => {
   beforeEach(() => {
@@ -14,28 +15,29 @@ describe('NavigationBar', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders brand name', () => {
+  it('renders monogram', () => {
     render(<NavigationBar />);
-    expect(screen.getByText('Bradley Eugene Sakran')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Back to top/i })).toBeInTheDocument();
   });
 
-  it('renders Home, About, Contact nav items', () => {
+  it('renders Home, About, Work, Contact nav items', () => {
     render(<NavigationBar />);
-    expect(screen.getByRole('button', { name: /Home/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /About/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Contact/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Home$/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^About$/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Work$/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^Contact$/i })).toBeInTheDocument();
   });
 
-  it('renders Connect button', () => {
+  it('renders theme toggle', () => {
     render(<NavigationBar />);
-    expect(screen.getByRole('button', { name: /Connect/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Switch to (day|night) mode/i })).toBeInTheDocument();
   });
 
   it('scrolls to section when nav button clicked', () => {
     const mockScrollIntoView = vi.fn();
     document.getElementById = vi.fn().mockReturnValue({ scrollIntoView: mockScrollIntoView });
     render(<NavigationBar />);
-    fireEvent.click(screen.getByRole('button', { name: /About/i }));
+    fireEvent.click(screen.getByRole('button', { name: /^About$/i }));
     expect(document.getElementById).toHaveBeenCalledWith('about');
     expect(mockScrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth', block: 'start' });
   });
@@ -48,7 +50,6 @@ describe('NavigationBar', () => {
       Object.defineProperty(window, 'scrollY', { value: 450, writable: true });
       fireEvent.scroll(window);
     });
-    // active section detection runs without throwing
     expect(document.getElementById).toHaveBeenCalled();
   });
 

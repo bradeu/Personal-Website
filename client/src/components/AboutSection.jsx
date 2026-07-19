@@ -1,126 +1,118 @@
-import React from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import ScrubWords from "./fx/ScrubWords";
+import AboutSpaceCanvas from "./fx/AboutSpaceCanvas";
 
 const skillRows = [
-  { label: "Frontend",  skills: ["React", "Next.js", "TypeScript", "Tailwind"] },
-  { label: "Backend",   skills: ["FastAPI", "Gin", "Node.js", "PostgreSQL", "Redis", "Celery", "Docker"] },
-  { label: "Languages", skills: ["Python", "Go", "JavaScript", "TypeScript", "Java", "C++", "C"] },
-  { label: "AI / ML",   skills: ["Data Pipelines", "RAG", "Pinecone", "Qdrant", "NLP"] },
-  { label: "Tools",     skills: ["Git", "Postman", "VS Code", "Linux"] },
+  { label: "Languages",  skills: ["Python", "Go", "JavaScript", "TypeScript", "Java", "C#", "C++", "C", "SQL", "R", "Racket"] },
+  { label: "Frameworks", skills: ["FastAPI", "Gin", "Fiber", "Django", "TensorFlow", "LangChain", "Node.js", "Express", "React", "Tailwind"] },
+  { label: "Tools",      skills: ["RabbitMQ", "Redis", "Kafka", "ClearML", "Git", "Docker", "AWS", "Atlassian"] },
+  { label: "Data",       skills: ["PostgreSQL", "MongoDB", "Pinecone", "ChromaDB", "Qdrant"] },
 ];
 
+const ABOUT_TEXT = `Computer Science student at UBC, building full-stack, AI-powered systems — RAG pipelines, agentic platforms, backend infrastructure. Born and raised in Indonesia, now based in Vancouver.`;
+
+function SkillsPanel() {
+  return (
+    <div className="about-editorial-panel">
+      <span className="about-ghost-number" aria-hidden="true">02</span>
+      <h3 className="about-editorial-title">Skills & Technologies</h3>
+      <div className="about-skills-rows">
+        {skillRows.map(({ label, skills }) => (
+          <div key={label} className="about-skill-row">
+            <span className="about-skill-label">{label}</span>
+            <div className="about-skill-tags">
+              {skills.map(s => (
+                <span key={s} className="about-skill-tag">{s}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The About flight: the camera flies through a glowing portal ring into a
+ * real 3D starfield (three.js — the camera genuinely travels forward),
+ * the two panels cross right → left mid-flight, and a second ring marks
+ * the way out. The "About" title is crisp DOM text — it fades, never
+ * scales, so it can't blur.
+ */
 export default function AboutSection() {
-  const sectionRef   = useRef(null);
-  const journeyRef   = useRef(null);
-  const backgroundRef = useRef(null);
-  const skillsRef    = useRef(null);
+  const sectionRef = useRef(null);
+  const prefersReduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  const journeyScale   = useTransform(scrollYProgress, [0, 0.33, 0.4],    [1, 1, 0.94]);
-  const journeyOpacity = useTransform(scrollYProgress, [0, 0.33, 0.4],    [1, 1, 0]);
-  const journeyY       = useTransform(scrollYProgress, [0, 0.33, 0.4],    [0, 0, -32]);
+  /* approach: 0 while the section is still below, 1 the moment it pins.
+     Drives the hand-off from hero → space so there's no hard seam. */
+  const { scrollYProgress: approach } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "start start"],
+  });
 
-  const bgScale        = useTransform(scrollYProgress, [0.3, 0.45, 0.66, 0.73], [0.94, 1, 1, 0.94]);
-  const bgOpacity      = useTransform(scrollYProgress, [0.3, 0.45, 0.66, 0.73], [0, 1, 1, 0]);
-  const bgY            = useTransform(scrollYProgress, [0.3, 0.45, 0.66, 0.73], [32, 0, 0, -32]);
+  /* stars grow in while approaching, fade after the exit ring */
+  const spaceIn = useTransform(approach, [0.25, 0.9], [0, 1]);
+  const spaceOut = useTransform(scrollYProgress, [0.93, 1], [1, 0]);
+  const spaceOpacity = useTransform(() => spaceIn.get() * spaceOut.get());
 
-  const skillsScale    = useTransform(scrollYProgress, [0.63, 0.78, 1],          [0.94, 1, 1]);
-  const skillsOpacity  = useTransform(scrollYProgress, [0.63, 0.78, 1],          [0, 1, 1]);
-  const skillsY        = useTransform(scrollYProgress, [0.63, 0.78, 1],          [32, 0, 0]);
+  /* panels fly right → left */
+  const panel1X = useTransform(
+    scrollYProgress,
+    [0.2, 0.3, 0.44, 0.54],
+    ["112vw", "0vw", "0vw", "-118vw"]
+  );
+  const panel2X = useTransform(
+    scrollYProgress,
+    [0.5, 0.6, 0.74, 0.82],
+    ["112vw", "0vw", "0vw", "-118vw"]
+  );
+
+  if (prefersReduced) {
+    /* static fallback: plain stacked panels, no pin, no flight */
+    return (
+      <section id="about" className="about-static">
+        <div className="about-editorial-panel">
+          <span className="about-ghost-number" aria-hidden="true">01</span>
+          <h3 className="about-editorial-title">About</h3>
+          <p className="about-editorial-body">{ABOUT_TEXT}</p>
+        </div>
+        <SkillsPanel />
+      </section>
+    );
+  }
 
   return (
-    <section id="about" className="about-section-scroll" ref={sectionRef}>
-      <div className="about-scroll-container">
+    <section id="about" className="about-space" ref={sectionRef}>
+      <div className="about-space-stage">
 
-        {/* 01 — Journey */}
-        <motion.div
-          className="about-scroll-item"
-          ref={journeyRef}
-          style={{ scale: journeyScale, opacity: journeyOpacity, y: journeyY }}
-        >
+        {/* 3D flight: portal rings + traveling starfield */}
+        <motion.div className="about-space-layer" style={{ opacity: spaceOpacity }} aria-hidden="true">
+          <AboutSpaceCanvas progress={scrollYProgress} approach={approach} />
+        </motion.div>
+
+        {/* 01 — About, crossing mid-flight */}
+        <motion.div className="about-space-panel" style={{ x: panel1X }}>
           <div className="about-editorial-panel">
             <span className="about-ghost-number" aria-hidden="true">01</span>
-            <div className="about-editorial-header">
-              <span className="about-mono-label">Section 01 — Journey</span>
-              <div className="about-header-rule" />
-            </div>
-            <h3 className="about-editorial-title">My Journey</h3>
-            <p className="about-editorial-body">
-              Hi! 👋 I'm a Computer Science student at the University of British Columbia,
-              obsessed with building things that feel alive — tools that remember, learn,
-              and make people go "wait, that was smart." I started as a curious kid hacking
-              together websites, and now I'm deep into crafting full-stack, AI-powered
-              experiences that scale. Every project is a chance to push further into creating
-              real value for people.
-            </p>
-            <p className="about-editorial-emphasis">
-              Experimenting. Shipping. Just getting started.
-            </p>
+            <h3 className="about-editorial-title">About</h3>
+            <ScrubWords
+              className="about-editorial-body"
+              progress={scrollYProgress}
+              range={[0.29, 0.44]}
+              text={ABOUT_TEXT}
+            />
           </div>
         </motion.div>
 
-        {/* 02 — Background */}
-        <motion.div
-          className="about-scroll-item"
-          ref={backgroundRef}
-          style={{ scale: bgScale, opacity: bgOpacity, y: bgY }}
-        >
-          <div className="about-editorial-panel about-panel-split">
-            <div className="about-split-left">
-              <span className="about-ghost-number" aria-hidden="true">02</span>
-              <blockquote className="about-pull-quote">
-                "Stay curious, stay adaptable, keep creating."
-              </blockquote>
-            </div>
-            <div className="about-split-right">
-              <div className="about-editorial-header">
-                <span className="about-mono-label">Section 02 — Background</span>
-                <div className="about-header-rule" />
-              </div>
-              <h3 className="about-editorial-title">Background</h3>
-              <p className="about-editorial-body">
-                Born and raised in Indonesia, now calling Vancouver home. I've grown by
-                stepping into many roles — from organizing student communities to building
-                and shipping software used in real settings. Being in a fast-paced environment
-                surrounded by diverse people and ideas shaped how I think: stay curious, stay
-                adaptable, and keep creating. Passionate about crafting technology that feels
-                reliable, intuitive, and genuinely helpful.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* 03 — Skills */}
-        <motion.div
-          className="about-scroll-item"
-          ref={skillsRef}
-          style={{ scale: skillsScale, opacity: skillsOpacity, y: skillsY }}
-        >
-          <div className="about-editorial-panel">
-            <span className="about-ghost-number" aria-hidden="true">03</span>
-            <div className="about-editorial-header">
-              <span className="about-mono-label">Section 03 — Technical</span>
-              <div className="about-header-rule" />
-            </div>
-            <h3 className="about-editorial-title">Skills & Technologies</h3>
-            <div className="about-skills-rows">
-              {skillRows.map(({ label, skills }) => (
-                <div key={label} className="about-skill-row">
-                  <span className="about-skill-label">{label}</span>
-                  <div className="about-skill-tags">
-                    {skills.map(s => (
-                      <span key={s} className="about-skill-tag">{s}</span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* 02 — Skills, crossing mid-flight */}
+        <motion.div className="about-space-panel" style={{ x: panel2X }}>
+          <SkillsPanel />
         </motion.div>
 
       </div>

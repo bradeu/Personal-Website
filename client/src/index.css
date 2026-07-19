@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700;1,9..144,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -75,15 +75,37 @@ button:focus-visible {
 @tailwind utilities;
 
 :root {
-  background-color: #0D001A;
-  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
-  --color-bg: #0D001A;
+
+  /* night (default) — near-black + hot purple, soft violet for water FX */
+  --color-bg: #050109;
+  --bg-rgb: 5, 1, 9;
   --color-accent: #DD62ED;
+  --accent-rgb: 221, 98, 237;
   --color-accent-dim: rgba(221, 98, 237, 0.25);
-  --color-text: #F8F4FF;
-  --color-text-muted: rgba(248, 244, 255, 0.6);
+  --color-water: #A78BFF;
+  --water-rgb: 167, 139, 255;
+  --color-text: #FFFFFF;
+  --text-rgb: 255, 255, 255;
+  --color-text-muted: rgba(255, 255, 255, 0.75);
+
+  background-color: var(--color-bg);
+}
+
+/* day — lavender-cast white + ink black + deep purple */
+[data-theme="day"] {
+  --color-bg: #F5F2FA;
+  --bg-rgb: 245, 242, 250;
+  --color-accent: #9B00C8;
+  --accent-rgb: 155, 0, 200;
+  --color-accent-dim: rgba(155, 0, 200, 0.22);
+  --color-water: #6A34C9;
+  --water-rgb: 106, 52, 201;
+  --color-text: #0B0510;
+  --text-rgb: 11, 5, 16;
+  --color-text-muted: rgba(11, 5, 16, 0.78);
 }
 
 * {
@@ -97,7 +119,8 @@ html, body, #root {
 }
 
 html {
-  background-color: #0D001A;
+  background-color: var(--color-bg);
+  transition: background-color 0.45s ease;
 }
 
 body {

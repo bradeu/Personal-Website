@@ -13,7 +13,8 @@ export default function NeonBlobs() {
     // #DD62ED = hsl(293, 77%, 65%)
     // #7318a2 = hsl(278, 76%, 36%)
     // #9333ea = hsl(274, 82%, 55%)
-    const hues = [293, 278, 274, 290, 285, 280, 295, 288]; // variations of purples
+    // purple family with two violet clouds for depth
+    const hues = [293, 278, 274, 262, 285, 280, 258, 288];
 
     function rand(min, max) {
       return Math.random() * (max - min) + min;

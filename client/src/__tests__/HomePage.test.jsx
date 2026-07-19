@@ -10,13 +10,22 @@ const MOTION_PROPS = new Set([
   'layoutId', 'drag', 'dragConstraints', 'onAnimationStart', 'onAnimationComplete',
 ]);
 
-vi.mock('framer-motion', () => ({
-  motion: new Proxy({}, { get: (_, tag) => ({ children, ...props }) => {
-    const Tag = typeof tag === 'string' ? tag : 'div';
-    const domProps = Object.fromEntries(Object.entries(props).filter(([k]) => !MOTION_PROPS.has(k)));
-    return <Tag {...domProps}>{children}</Tag>;
-  }}),
-}));
+vi.mock('framer-motion', () => {
+  const mockMotionValue = () => ({ get: () => 0, set: () => {}, on: () => () => {} });
+  return {
+    motion: new Proxy({}, { get: (_, tag) => ({ children, ...props }) => {
+      const Tag = typeof tag === 'string' ? tag : 'div';
+      const domProps = Object.fromEntries(
+        Object.entries(props).filter(([k]) => !MOTION_PROPS.has(k) && k !== 'style')
+      );
+      return <Tag {...domProps}>{children}</Tag>;
+    }}),
+    useMotionValue: mockMotionValue,
+    useSpring: mockMotionValue,
+    useTransform: mockMotionValue,
+    useInView: () => false,
+  };
+});
 
 import HomePage from '../components/HomePage';
 
@@ -32,7 +41,7 @@ describe('HomePage', () => {
 
   it('renders subtitle', () => {
     render(<HomePage />);
-    expect(screen.getByText(/Engineer \| Builder \| Student/i)).toBeInTheDocument();
+    expect(screen.getByText(/AI \/ ML \/ Backend/i)).toBeInTheDocument();
   });
 
   it('renders profile image with alt text', () => {

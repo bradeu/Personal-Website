@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "@nextui-org/react";
 import bradleyPic from "../public/bradley.jpg"
 import BradleysResume from "../public/Bradley_s_Resume.pdf"
 
@@ -70,21 +69,12 @@ export default function AboutBody() {
                 <h2 className="resume-section-title">Want to know more?</h2>
                 <p className="resume-section-subtitle">Check out my full resume for detailed experience and skills</p>
                 <div className="resume-actions-about">
-                    <Button
-                        size="lg"
-                        className="resume-btn-primary"
-                        onClick={handleDownloadResume}
-                    >
+                    <button className="resume-btn-primary" onClick={handleDownloadResume}>
                         Download Resume
-                    </Button>
-                    <Button
-                        size="lg"
-                        variant="bordered"
-                        className="resume-btn-secondary"
-                        onClick={handleViewResume}
-                    >
+                    </button>
+                    <button className="resume-btn-secondary" onClick={handleViewResume}>
                         View Resume
-                    </Button>
+                    </button>
                 </div>
             </motion.div>
         </div>
