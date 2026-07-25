@@ -6,7 +6,7 @@ export default function NeonBlobs() {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const N = 8; // number of blobs
+    const N = 6; // number of blobs
     const root = containerRef.current;
 
     // Purple color palette in HSL format
@@ -184,23 +184,36 @@ export default function NeonBlobs() {
           blob.currentY += blob.velocityY * dt;
         }
 
-        // Apply to DOM using GPU-accelerated transform with vw/vh units, centered on position
-        blob.shell.style.transform = `translate(${blob.currentX}vw, ${blob.currentY}vh) translate(-50%, -50%)`;
-
         // Organic pulsing - quantize scale to prevent sub-pixel shimmer
         const scaleOffset = Math.sin(animTime * blob.scaleSpeed * 2) * 0.12;
         blob.scale = Math.round((1 + scaleOffset) * 1000) / 1000;
 
-        // Keep blur constant, pulse the inner blob scale instead for stability
-        blob.ink.style.transform = `scale(${blob.scale})`;
+        // Apply position AND pulse on the shell (the filtered element itself):
+        // transforming the filtered layer is compositor-only, whereas
+        // transforming the inner ink invalidates the blur and forces the GPU
+        // to re-rasterize a huge blurred layer every frame.
+        blob.shell.style.transform = `translate(${blob.currentX}vw, ${blob.currentY}vh) translate(-50%, -50%) scale(${blob.scale})`;
       });
 
       animationFrameId = requestAnimationFrame(animate);
     }
 
     // Start animation loop
-    console.log('🔵 Starting blob animation with cursor-reactive speed');
     animationFrameId = requestAnimationFrame(animate);
+
+    // Pause the loop entirely while the tab is hidden
+    function handleVisibility() {
+      if (document.hidden) {
+        if (animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      } else if (animationFrameId === null) {
+        lastAnimTime = performance.now();
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility);
 
     // Track cursor movement to calculate velocity
     let rafId = null;
@@ -301,6 +314,7 @@ export default function NeonBlobs() {
 
     return () => {
       window.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('visibilitychange', handleVisibility);
       // Cancel both animation loops to prevent leaks
       if (animationFrameId !== null) {
         cancelAnimationFrame(animationFrameId);

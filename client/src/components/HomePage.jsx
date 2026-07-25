@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import bradleyPic from "../public/bradley_profile.jpg";
+import bradleyPic from "../public/bradley_profile_opt.jpg";
 import BradleysResume from "../public/Bradley_s_Resume.pdf";
 import ScrambleText from "./fx/ScrambleText";
 import MagneticItem from "./fx/MagneticItem";

@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 const ramp = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
@@ -149,6 +149,17 @@ function Nebula() {
    further back, so the portal is already flying toward you while
    the hero is still leaving the screen. */
 function Rig({ progress, approach }) {
+    const invalidate = useThree((s) => s.invalidate);
+
+    /* demand frameloop: the flight is fully scroll-scrubbed, so only
+       re-render when either progress value moves */
+    useEffect(() => {
+        const unsubs = [progress, approach].filter(Boolean).map((mv) =>
+            mv.on("change", () => invalidate())
+        );
+        return () => unsubs.forEach((u) => u());
+    }, [progress, approach, invalidate]);
+
     useFrame(({ camera, clock }) => {
         const p = progress.get();
         const a = approach ? approach.get() : 1;
@@ -168,8 +179,9 @@ export default function AboutSpaceCanvas({ progress, approach }) {
     return (
         <Canvas
             className="about-space-canvas"
-            dpr={[1, 2]}
-            gl={{ antialias: true, alpha: true }}
+            frameloop="demand"
+            dpr={[1, 1.75]}
+            gl={{ antialias: true, alpha: true, powerPreference: "low-power" }}
             camera={{ position: [0, 0, 9], fov: 40 }}
         >
             <Rig progress={progress} approach={approach} />

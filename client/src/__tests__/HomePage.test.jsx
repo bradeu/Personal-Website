@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-vi.mock('../public/bradley_profile.jpg', () => ({ default: 'bradley_profile.jpg' }));
+vi.mock('../public/bradley_profile_opt.jpg', () => ({ default: 'bradley_profile.jpg' }));
 vi.mock('../public/Bradley_s_Resume.pdf', () => ({ default: 'resume.pdf' }));
 const MOTION_PROPS = new Set([
   'initial', 'animate', 'exit', 'transition', 'variants', 'whileHover',

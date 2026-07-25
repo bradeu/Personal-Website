@@ -66,8 +66,8 @@ a, button, [role='button'], input, textarea, label, select {
   top: 0;
   width: var(--size, 42vmin);
   height: var(--size, 42vmin);
-  will-change: transform, filter;
-  filter: blur(70px);
+  will-change: transform;
+  filter: blur(60px);
   opacity: var(--alpha, 0.45);
   mix-blend-mode: screen;
   backface-visibility: hidden;
@@ -84,9 +84,6 @@ a, button, [role='button'], input, textarea, label, select {
     hsla(var(--h2, calc(var(--h) + 25)), 90%, 65%, 0.7) 45%,
     transparent 70%
   );
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
 }
 
 .app-container {
@@ -201,7 +198,7 @@ a, button, [role='button'], input, textarea, label, select {
 /* ===== FILM GRAIN OVERLAY ===== */
 .grain {
   position: fixed;
-  inset: -50%;
+  inset: -5%;
   z-index: 3;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
