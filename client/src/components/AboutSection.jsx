@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, lazy, Suspense } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import ScrubWords from "./fx/ScrubWords";
-import AboutSpaceCanvas from "./fx/AboutSpaceCanvas";
+
+const AboutSpaceCanvas = lazy(() => import("./fx/AboutSpaceCanvas"));
 
 const skillRows = [
   { label: "Languages",  skills: ["Python", "Go", "JavaScript", "TypeScript", "Java", "C#", "C++", "C", "SQL", "R", "Racket"] },
@@ -93,7 +94,9 @@ export default function AboutSection() {
 
         {/* 3D flight: portal rings + traveling starfield */}
         <motion.div className="about-space-layer" style={{ opacity: spaceOpacity }} aria-hidden="true">
-          <AboutSpaceCanvas progress={scrollYProgress} approach={approach} />
+          <Suspense fallback={null}>
+            <AboutSpaceCanvas progress={scrollYProgress} approach={approach} />
+          </Suspense>
         </motion.div>
 
         {/* 01 — About, crossing mid-flight */}

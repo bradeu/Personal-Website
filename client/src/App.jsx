@@ -1,16 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import HomePage from "./components/HomePage";
 import AboutSection from "./components/AboutSection";
 import WorkSection from "./components/WorkSection";
-import PlaygroundSection from "./components/PlaygroundSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import NeonBlobs from "./components/NeonBlobs";
 import CustomCursor from "./components/CustomCursor";
 import DotPortal from "./components/fx/DotPortal";
 import "./App.css"
+
+const PlaygroundSection = lazy(() => import("./components/PlaygroundSection"));
 
 function MainPage() {
   const location = useLocation();
@@ -48,7 +49,14 @@ export default function App() {
         <NavigationBar />
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/playground" element={<PlaygroundSection />} />
+          <Route
+            path="/playground"
+            element={
+              <Suspense fallback={null}>
+                <PlaygroundSection />
+              </Suspense>
+            }
+          />
         </Routes>
         <Footer />
       </div>

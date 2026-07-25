@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
 
@@ -56,6 +56,20 @@ function Scene({ progress, accent, bg }) {
     const dotRef = useRef();
     const ringRefs = [useRef(), useRef(), useRef()];
     const teardrop = useMemo(() => makeTeardropGeometry(), []);
+    const invalidate = useThree((s) => s.invalidate);
+
+    /* demand frameloop: re-render on scroll, plus a low-rate tick to keep
+       the idle dot pulse alive while the droplet phase is on screen */
+    useEffect(() => {
+        const unsub = progress.on("change", () => invalidate());
+        const tick = setInterval(() => {
+            if (progress.get() < 0.6 && !document.hidden) invalidate();
+        }, 50);
+        return () => {
+            unsub();
+            clearInterval(tick);
+        };
+    }, [progress, invalidate]);
 
     const RINGS = [
         { start: 0.36, end: 0.6, max: 2.6, peak: 0.75 },
@@ -177,8 +191,9 @@ export default function DropletCanvas({ progress }) {
     return (
         <Canvas
             className="droplet-canvas"
-            dpr={[1.5, 3]}
-            gl={{ antialias: true, alpha: true }}
+            frameloop="demand"
+            dpr={[1, 1.75]}
+            gl={{ antialias: true, alpha: true, powerPreference: "low-power" }}
             camera={{ position: [0, 0.4, 8], fov: 32 }}
             onCreated={({ gl, scene }) => {
                 gl.toneMapping = THREE.ACESFilmicToneMapping;

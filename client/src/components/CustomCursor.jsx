@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+const INTERACTIVE = "a, button, [role='button'], input, textarea, label";
+
 export default function CustomCursor() {
   const dotRef  = useRef(null);
   const ringRef = useRef(null);
@@ -11,25 +13,7 @@ export default function CustomCursor() {
 
     let mouse  = { x: -100, y: -100 };
     let cursor = { x: -100, y: -100 };
-    let raf;
-    let hovering = false;
-
-    const onMove = (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
-
-    const onEnter = () => { hovering = true;  ring.classList.add("cursor-ring--hover"); };
-    const onLeave = () => { hovering = false; ring.classList.remove("cursor-ring--hover"); };
-
-    const interactives = () => document.querySelectorAll("a, button, [role='button'], input, textarea, label");
-
-    const attachListeners = () => {
-      interactives().forEach(el => {
-        el.addEventListener("mouseenter", onEnter);
-        el.addEventListener("mouseleave", onLeave);
-      });
-    };
+    let raf = null;
 
     const loop = () => {
       // dot snaps instantly
@@ -40,25 +24,40 @@ export default function CustomCursor() {
       cursor.y += (mouse.y - cursor.y) * 0.12;
       ring.style.transform = `translate(${cursor.x - 20}px, ${cursor.y - 20}px)`;
 
-      raf = requestAnimationFrame(loop);
+      // stop looping once the ring has caught up — restart on next move
+      if (Math.abs(mouse.x - cursor.x) > 0.1 || Math.abs(mouse.y - cursor.y) > 0.1) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = null;
+      }
     };
 
-    document.addEventListener("mousemove", onMove);
-    attachListeners();
-    raf = requestAnimationFrame(loop);
+    const onMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      if (raf === null) raf = requestAnimationFrame(loop);
+    };
 
-    // re-attach on DOM changes (SPA navigation)
-    const observer = new MutationObserver(attachListeners);
-    observer.observe(document.body, { childList: true, subtree: true });
+    // event delegation — no per-element listeners, no MutationObserver
+    const onOver = (e) => {
+      if (e.target.closest?.(INTERACTIVE)) ring.classList.add("cursor-ring--hover");
+    };
+    const onOut = (e) => {
+      const from = e.target.closest?.(INTERACTIVE);
+      if (from && !e.relatedTarget?.closest?.(INTERACTIVE)) {
+        ring.classList.remove("cursor-ring--hover");
+      }
+    };
+
+    document.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("mouseover", onOver, { passive: true });
+    document.addEventListener("mouseout", onOut, { passive: true });
 
     return () => {
       document.removeEventListener("mousemove", onMove);
-      cancelAnimationFrame(raf);
-      observer.disconnect();
-      interactives().forEach(el => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-      });
+      document.removeEventListener("mouseover", onOver);
+      document.removeEventListener("mouseout", onOut);
+      if (raf !== null) cancelAnimationFrame(raf);
     };
   }, []);
 

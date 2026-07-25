@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, lazy, Suspense } from "react";
 import {
     motion,
     useScroll,
@@ -7,7 +7,9 @@ import {
     useMotionValueEvent,
     useReducedMotion,
 } from "framer-motion";
-import DropletCanvas from "./DropletCanvas";
+/* three.js + react-three-fiber live in their own chunk so the initial
+   page paint doesn't wait on them */
+const DropletCanvas = lazy(() => import("./DropletCanvas"));
 
 /**
  * Water-droplet intro, scroll-scrubbed over a 320vh runway.
@@ -63,7 +65,9 @@ export default function DotPortal({ children }) {
                     style={{ opacity: plainOpacity }}
                     aria-hidden="true"
                 >
-                    <DropletCanvas progress={scrollYProgress} />
+                    <Suspense fallback={null}>
+                        <DropletCanvas progress={scrollYProgress} />
+                    </Suspense>
                 </motion.div>
 
                 {/* content revealed through the growing circle */}
